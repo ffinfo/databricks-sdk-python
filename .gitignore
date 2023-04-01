@@ -1,0 +1,15 @@
+.idea/
+
+junit/
+dist/
+
+__pycache__
+.pytest_cache
+
+node_modules/
+
+*.iml
+.vscode
+
+cdk.out/
+test.py

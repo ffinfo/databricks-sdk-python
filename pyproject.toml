@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "databricks-sdk-python"
+version = "0.0.0"
+description = "Objet based databricks sdk"
+authors = ["Peter van 't Hof' <peter.vanthof@godatadriven.com>"]
+
+keywords = ["databricks"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/ffinfo/databricks-sdk-python"
+repository = "https://github.com/ffinfo/databricks-sdk-python"
+include = [
+    "LICENSE",
+]
+
+
+packages = [{ include = "databricks_sdk_python", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+pydantic = "^1.4.0"
+requests = ">=2.22"
+
+[tool.poetry.group.dev.dependencies]
+pydantic-factories = "^1.17.2"
+coverage= {version=  "^6.1.1", extras=["toml"]}
+pytest= "7.0.1"
+pytest-mock="3.6.1"
+pyproject-flake8 ="^5.0.4"
+isort ="^5.10.0"
+black="23.3.0"
+pytest-cov="^4.0.0"
+mypy = "^0.971"
+
+[tool.black]
+line-length = 120
+target-version = ["py38"]
+
+[tool.pytest.ini_options]
+addopts = "--junitxml=junit/report.xml"
+testpaths = ["tests"]
+
+[tool.coverage.report]
+omit = ["tests/*", ".venv/*"]
+precision = 2
+show_missing = true
+
+[tool.coverage.run]
+command_line = "-m pytest -v tests/"
+omit = ["tests/*",".venv/*"]
+
+[tool.flake8]
+max-line-length = 180
+extend-exclude = ["deploy", ".venv"]
+extend-ignore = "E203"
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.mypy]
+files = "src/"
+python_version = "3.9"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
