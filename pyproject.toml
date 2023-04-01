@@ -23,7 +23,7 @@ requests = ">=2.22"
 
 [tool.poetry.group.dev.dependencies]
 pydantic-factories = "^1.17.2"
-coverage= {version=  "^6.1.1", extras=["toml"]}
+coverage= {version=  ">=6.1.1,<8.0.0", extras=["toml"]}
 pytest= "7.0.1"
 pytest-mock="3.6.1"
 pyproject-flake8 ="^5.0.4"
