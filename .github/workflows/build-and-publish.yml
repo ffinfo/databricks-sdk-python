@@ -49,7 +49,7 @@ jobs:
         git commit -m "Bump version to ${NEW_VERSION}"
         git tag "v${NEW_VERSION}"
 
-        poetry config pypi-token.pypi ${PYPI_TOKEN}
+        poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
         poetry publish --build
 
         git push
