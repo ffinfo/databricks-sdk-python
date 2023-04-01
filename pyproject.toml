@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "databricks-sdk-python"
-version = "0.0.1"
+version = "0.0.2"
 description = "Objet based databricks sdk"
 authors = ["Peter van 't Hof' <peter.vanthof@godatadriven.com>"]
 
