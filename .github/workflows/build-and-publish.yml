@@ -33,6 +33,8 @@ jobs:
 
     - name: Build and publish
       run: |
+        set -eu
+        
         BUMP_LEVEL=${{ github.event.inputs.bump_level }}
         echo "bump level: ${BUMP_LEVEL}"
         git config --local user.email "Bumpversion"
@@ -40,7 +42,8 @@ jobs:
 
         # Version bump
 
-        NEW_VERSION=$(poetry version ${BUMP_LEVEL})
+        NEW_VERSION=$(poetry version -s ${BUMP_LEVEL})
+        echo ${NEW_VERSION}
         poetry update
         git add pyproject.toml poetry.lock
         git commit -m "Bump version to ${NEW_VERSION}"
