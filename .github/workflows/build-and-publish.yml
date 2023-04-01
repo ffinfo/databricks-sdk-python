@@ -35,6 +35,8 @@ jobs:
       run: |
         BUMP_LEVEL=${{ github.event.inputs.bump_level }}
         echo "bump level: ${BUMP_LEVEL}"
+        git config --local user.email "Bumpversion"
+        git config --local user.name "Bumpversion"
 
         # Version bump
 
