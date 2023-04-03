@@ -15,16 +15,14 @@ class AwsAccountClient(BaseClient):
         self.account_id = account_id
 
         from databricks_sdk_python.api_client.account.aws.credentials import AwsCredentialsClient
+        from databricks_sdk_python.api_client.account.aws.networks import AwsNetworksClient
+        from databricks_sdk_python.api_client.account.aws.storage_configuration import AwsStorageConfigurationClient
+        from databricks_sdk_python.api_client.account.aws.workspaces import AwsWorkspacesClient
 
         self.credentials = AwsCredentialsClient(self)
-
-        from databricks_sdk_python.api_client.account.aws.storage_configuration import AwsStorageConfigurationClient
-
         self.storage_configuration = AwsStorageConfigurationClient(self)
-
-        from databricks_sdk_python.api_client.account.aws.networks import AwsNetworksClient
-
         self.networks = AwsNetworksClient(self)
+        self.workspaces = AwsWorkspacesClient(self)
 
     def _get_account_path(self):
         return f"{ACCOUNT_API_PREFIX}/{self.account_id}"
