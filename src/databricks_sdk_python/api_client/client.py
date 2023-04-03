@@ -71,5 +71,8 @@ class BaseClient(object):
     def _post(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
         return self._request("POST", path, params=params, body=body)
 
+    def _patch(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
+        return self._request("PATCH", path, params=params, body=body)
+
     def _delete(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
         return self._request("DELETE", path, params=params, body=body)
