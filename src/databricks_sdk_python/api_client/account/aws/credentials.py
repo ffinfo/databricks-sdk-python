@@ -2,7 +2,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from databricks_sdk_python.api_client.account.aws.client import AwsAccountClient
-from databricks_sdk_python.resources.aws_account.credentials import Credentials
+from databricks_sdk_python.api_client.utils import UnknownApiResponse
+from databricks_sdk_python.resources.account.aws.credentials import Credentials
 
 
 class AwsCredentialsClient(object):
@@ -20,14 +21,20 @@ class AwsCredentialsClient(object):
         response = self.aws_account_client._get(self._get_path())
         if response.status_code == 404:
             return []
-        return [Credentials(**x) for x in response.json()]
+        elif response.status_code == 200:
+            return [Credentials(**x) for x in response.json()]
+        else:
+            raise UnknownApiResponse(response)
 
     def get_by_id(self, credentials_id: UUID) -> Optional[Credentials]:
         """Fetch a single credentials by id"""
         response = self.aws_account_client._get(self._get_id_path(credentials_id))
         if response.status_code == 404:
             return None
-        return Credentials(**response.json())
+        elif response.status_code == 200:
+            return Credentials(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def get_by_name(self, credentials_name: str) -> Optional[Credentials]:
         """Fetch a single credentials by name"""
@@ -42,12 +49,13 @@ class AwsCredentialsClient(object):
             "aws_credentials": {"sts_role": {"role_arn": role_arn}},
         }
         response = self.aws_account_client._post(self._get_path(), body=body)
-        return Credentials(**response.json())
+        if response.status_code == 201:
+            return Credentials(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def delete(self, credentials_id: UUID):
         """Deletes a credentials from the databricks account"""
         response = self.aws_account_client._delete(self._get_id_path(credentials_id))
-        if response.status_code == 404:
-            raise RuntimeError("Not found")
-        if response.status_code == 409:
-            raise RuntimeError(str(response.json()))
+        if response.status_code != 200:
+            raise UnknownApiResponse(response)

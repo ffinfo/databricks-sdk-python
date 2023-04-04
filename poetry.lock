@@ -250,7 +250,7 @@ email = ["email-validator (>=1.0.3)"]
 
 [[package]]
 name = "pydantic-factories"
-version = "1.17.2"
+version = "1.17.3"
 description = "Mock data generation for pydantic based models and python dataclasses"
 category = "dev"
 optional = false
@@ -710,8 +710,8 @@ pydantic = [
     {file = "pydantic-1.10.7.tar.gz", hash = "sha256:cfc83c0678b6ba51b0532bea66860617c4cd4251ecf76e9846fa5a9f3454e97e"},
 ]
 pydantic-factories = [
-    {file = "pydantic_factories-1.17.2-py3-none-any.whl", hash = "sha256:e1378700a9e963b368b602e46e8ccc3331027f10233e617eb47b3a3dd052ee25"},
-    {file = "pydantic_factories-1.17.2.tar.gz", hash = "sha256:a1ea1d3a595235a65f954d6e182ec4bfe94645f2c4d986fd43ae19a62ffb90b0"},
+    {file = "pydantic_factories-1.17.3-py3-none-any.whl", hash = "sha256:5a1522a31d27e1af414719c510a4a934365292f3ea6fdc843ed65d0564242636"},
+    {file = "pydantic_factories-1.17.3.tar.gz", hash = "sha256:de36e0db7108af5f4328308da9a4049311c4d5e0814553d2f39078b08b05e48d"},
 ]
 pyflakes = [
     {file = "pyflakes-2.5.0-py2.py3-none-any.whl", hash = "sha256:4579f67d887f804e67edb544428f264b7b24f435b263c4614f384135cea553d2"},

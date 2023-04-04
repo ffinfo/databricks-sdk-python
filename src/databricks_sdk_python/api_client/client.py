@@ -56,7 +56,10 @@ class BaseClient(object):
         self.session.mount("https://", TlsV1HttpAdapter(max_retries=retries))
 
     def _get_url(self, path: str):
-        return f"https://{self.host}/{path}"
+        if path.startswith("/"):
+            return f"https://{self.host}{path}"
+        else:
+            return f"https://{self.host}/{path}"
 
     def _request(self, method, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
         response = self.session.request(method, url=self._get_url(path), params=params, json=body, auth=self.auth)

@@ -2,7 +2,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from databricks_sdk_python.api_client.account.aws.client import AwsAccountClient
-from databricks_sdk_python.resources.aws_account.workspaces import Workspace
+from databricks_sdk_python.api_client.utils import UnknownApiResponse
+from databricks_sdk_python.resources.account.aws.workspaces import Workspace
 
 
 class AwsWorkspacesClient(object):
@@ -18,16 +19,22 @@ class AwsWorkspacesClient(object):
     def list(self) -> List[Workspace]:
         """List all workspace found on databricks account"""
         response = self.aws_account_client._get(self._get_path())
-        if response.status_code == 404:
+        if response.status_code == 200:
+            return [Workspace(**x) for x in response.json()]
+        elif response.status_code == 404:
             return []
-        return [Workspace(**x) for x in response.json()]
+        else:
+            raise UnknownApiResponse(response)
 
     def get_by_id(self, workspace_id: int) -> Optional[Workspace]:
         """Fetch a single workspace by id"""
         response = self.aws_account_client._get(self._get_id_path(workspace_id))
+        if response.status_code == 200:
+            return Workspace(**response.json())
         if response.status_code == 404:
             return None
-        return Workspace(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def get_by_name(self, workspace_name: str) -> Optional[Workspace]:
         """Fetch a single workspace by name"""
@@ -98,12 +105,13 @@ class AwsWorkspacesClient(object):
         if private_access_settings_id is not None:
             body["private_access_settings_id"] = str(private_access_settings_id)
         response = self.aws_account_client._patch(self._get_id_path(workspace_id), body=body)
-        return Workspace(**response.json())
+        if response.status_code == 201:
+            return Workspace(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def delete(self, workspace_id: int):
         """Deletes a workspace from the databricks account"""
         response = self.aws_account_client._delete(self._get_id_path(workspace_id))
-        if response.status_code == 404:
-            raise RuntimeError("Not found")
-        if response.status_code == 409:
-            raise RuntimeError(str(response.json()))
+        if response.status_code != 200:
+            raise UnknownApiResponse(response)

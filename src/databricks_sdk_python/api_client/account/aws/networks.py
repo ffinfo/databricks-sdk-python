@@ -3,7 +3,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from databricks_sdk_python.api_client.account.aws.client import AwsAccountClient
-from databricks_sdk_python.resources.aws_account.networks import Network, NetworkVpcEndpoints
+from databricks_sdk_python.api_client.utils import UnknownApiResponse
+from databricks_sdk_python.resources.account.aws.networks import Network, NetworkVpcEndpoints
 
 
 class AwsNetworksClient(object):
@@ -19,16 +20,22 @@ class AwsNetworksClient(object):
     def list(self) -> List[Network]:
         """List all network found on databricks account"""
         response = self.aws_account_client._get(self._get_path())
-        if response.status_code == 404:
+        if response.status_code == 200:
+            return [Network(**x) for x in response.json()]
+        elif response.status_code == 404:
             return []
-        return [Network(**x) for x in response.json()]
+        else:
+            raise UnknownApiResponse(response)
 
     def get_by_id(self, network_id: UUID) -> Optional[Network]:
         """Fetch a single network by id"""
         response = self.aws_account_client._get(self._get_id_path(network_id))
-        if response.status_code == 404:
+        if response.status_code == 200:
+            return Network(**response.json())
+        elif response.status_code == 404:
             return None
-        return Network(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def get_by_name(self, network_name: str) -> Optional[Network]:
         """Fetch a single network by name"""
@@ -55,12 +62,13 @@ class AwsNetworksClient(object):
         if vpc_endpoints is not None:
             body["vpc_endpoints"] = json.loads(vpc_endpoints.json())
         response = self.aws_account_client._post(self._get_path(), body=body)
-        return Network(**response.json())
+        if response.status_code == 201:
+            return Network(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def delete(self, network_id: UUID):
         """Deletes a network from the databricks account"""
         response = self.aws_account_client._delete(self._get_id_path(network_id))
-        if response.status_code == 404:
-            raise RuntimeError("Not found")
-        if response.status_code == 409:
-            raise RuntimeError(str(response.json()))
+        if response.status_code != 200:
+            raise UnknownApiResponse(response)

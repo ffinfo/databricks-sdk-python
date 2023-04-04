@@ -1,13 +1,18 @@
+from time import sleep
 from typing import Optional
 from uuid import UUID
 
+from requests.auth import AuthBase
+
+from databricks_sdk_python.api_client.workspace.client import WorkspaceClient
+from databricks_sdk_python.api_client.workspace.client import get_workspace_client as base_get_workspace_client
 from databricks_sdk_python.resources.base import AwsAccountModel
 
 
 class Workspace(AwsAccountModel):
     workspace_id: int
     workspace_name: str
-    deployment_name: Optional[str]
+    deployment_name: str
     aws_region: str
     pricing_tier: str
     workspace_status: str
@@ -20,6 +25,18 @@ class Workspace(AwsAccountModel):
     storage_customer_managed_key_id: Optional[UUID]
     is_no_public_ip_enabled: Optional[bool]
     creation_time: int
+
+    def get_workspace_host(self):
+        return f"{self.deployment_name}.cloud.databricks.com"
+
+    def get_workspace_client(self, auth: Optional[AuthBase] = None) -> WorkspaceClient:
+        return base_get_workspace_client(workspace_host=self.get_workspace_host(), auth=auth)
+
+    def wait_on_provisioning(self):
+        self.refresh()
+        while self.workspace_status == "PROVISIONING":
+            sleep(10)
+            self.refresh()
 
     def refresh(self):
         """Update to current state"""
