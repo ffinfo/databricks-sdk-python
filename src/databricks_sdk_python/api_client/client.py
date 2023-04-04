@@ -8,8 +8,6 @@ from requests.adapters import HTTPAdapter
 from requests.auth import AuthBase, HTTPBasicAuth
 from requests.utils import get_netrc_auth
 
-from databricks_sdk_python.api_client.utils import UnknownApiResponse
-
 try:
     from requests.packages.urllib3.poolmanager import PoolManager
     from requests.packages.urllib3.util.retry import Retry
@@ -64,16 +62,16 @@ class BaseClient(object):
             return f"https://{self.host}/{path}"
 
     def _request(self, method, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
-        response = self.session.request(method, url=self._get_url(path), params=params, json=body, auth=self.auth)
-        if response.status_code == 400 or response.status_code == 401 or response.status_code >= 500:
-            raise UnknownApiResponse(response)
-        return response
+        return self.session.request(method, url=self._get_url(path), params=params, json=body, auth=self.auth)
 
     def _get(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
         return self._request("GET", path, params=params, body=body)
 
     def _post(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
         return self._request("POST", path, params=params, body=body)
+
+    def _put(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
+        return self._request("PUT", path, params=params, body=body)
 
     def _patch(self, path: str, params: Optional[dict] = None, body: Optional[dict] = None) -> Response:
         return self._request("PATCH", path, params=params, body=body)
