@@ -13,10 +13,6 @@ class CredentialsFactory(ModelFactory):
     __model__ = Credentials
 
 
-def test_get_account_path(aws_account_client: AwsAccountClient):
-    assert aws_account_client._get_account_path() == f"{ACCOUNT_API_PREFIX}/{aws_account_client.account_id}"
-
-
 def test_get_credentials_path(aws_account_client: AwsAccountClient):
     assert (
         aws_account_client.credentials._get_path()

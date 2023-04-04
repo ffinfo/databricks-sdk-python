@@ -13,10 +13,6 @@ class StorageConfigurationFactory(ModelFactory):
     __model__ = StorageConfiguration
 
 
-def test_get_account_path(aws_account_client: AwsAccountClient):
-    assert aws_account_client._get_account_path() == f"{ACCOUNT_API_PREFIX}/{aws_account_client.account_id}"
-
-
 def test_get_storage_configuration_path(aws_account_client: AwsAccountClient):
     assert (
         aws_account_client.storage_configuration._get_path()

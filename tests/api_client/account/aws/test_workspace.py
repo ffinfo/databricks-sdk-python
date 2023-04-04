@@ -13,10 +13,6 @@ class WorkspaceFactory(ModelFactory):
     __model__ = Workspace
 
 
-def test_get_account_path(aws_account_client: AwsAccountClient):
-    assert aws_account_client._get_account_path() == f"{ACCOUNT_API_PREFIX}/{aws_account_client.account_id}"
-
-
 def test_get_workspaces_path(aws_account_client: AwsAccountClient):
     assert (
         aws_account_client.workspaces._get_path() == f"{ACCOUNT_API_PREFIX}/{aws_account_client.account_id}/workspaces"
