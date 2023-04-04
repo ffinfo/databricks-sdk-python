@@ -75,7 +75,10 @@ class AwsWorkspacesClient(object):
         if deployment_name is not None:
             body["deployment_name"] = str(deployment_name)
         response = self.aws_account_client._post(self._get_path(), body=body)
-        return Workspace(**response.json())
+        if response.status_code == 201:
+            return Workspace(**response.json())
+        else:
+            raise UnknownApiResponse(response)
 
     def update(
         self,
@@ -105,7 +108,7 @@ class AwsWorkspacesClient(object):
         if private_access_settings_id is not None:
             body["private_access_settings_id"] = str(private_access_settings_id)
         response = self.aws_account_client._patch(self._get_id_path(workspace_id), body=body)
-        if response.status_code == 201:
+        if response.status_code == 200:
             return Workspace(**response.json())
         else:
             raise UnknownApiResponse(response)
