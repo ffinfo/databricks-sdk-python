@@ -5,7 +5,8 @@ import pytest
 from pydantic_factories import ModelFactory
 
 from databricks_sdk_python.api_client.account.aws.client import ACCOUNT_API_PREFIX, ACCOUNT_HOST, AwsAccountClient
-from databricks_sdk_python.resources.aws_account.networks import Network
+from databricks_sdk_python.api_client.utils import UnknownApiResponse
+from databricks_sdk_python.resources.account.aws.networks import Network
 
 
 class NetworksFactory(ModelFactory):
@@ -97,7 +98,7 @@ def test_create_networks(requests_mock, aws_account_client: AwsAccountClient):
     expected: Network = NetworksFactory.build()
     mock_request = requests_mock.post(
         f"https://{ACCOUNT_HOST}/{aws_account_client.networks._get_path()}",
-        status_code=200,
+        status_code=201,
         text=expected.json(),
     )
 
@@ -138,9 +139,10 @@ def test_delete_networks_not_found(requests_mock, aws_account_client: AwsAccount
     mock_request = requests_mock.delete(
         f"https://{ACCOUNT_HOST}/{aws_account_client.networks._get_id_path(i)}",
         status_code=404,
+        json={"error": "Not found"},
     )
 
-    with pytest.raises(RuntimeError) as e:
+    with pytest.raises(UnknownApiResponse) as e:
         aws_account_client.networks.delete(i)
-    assert e.value.args[0] == "Not found"
+    assert e.value.response.status_code == 404
     assert mock_request.called_once
