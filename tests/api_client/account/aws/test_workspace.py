@@ -94,6 +94,10 @@ def test_get_workspaces_by_name_not_found(requests_mock, aws_account_client: Aws
 
 def test_create_workspaces(requests_mock, aws_account_client: AwsAccountClient):
     expected: Workspace = WorkspaceFactory.build()
+    expected.network_id = uuid.uuid4()
+    expected.managed_services_customer_managed_key_id = uuid.uuid4()
+    expected.private_access_settings_id = uuid.uuid4()
+    expected.storage_customer_managed_key_id = uuid.uuid4()
     mock_request = requests_mock.post(
         f"https://{ACCOUNT_HOST}/{aws_account_client.workspaces._get_path()}",
         status_code=201,
@@ -102,17 +106,61 @@ def test_create_workspaces(requests_mock, aws_account_client: AwsAccountClient):
 
     result = aws_account_client.workspaces.create(
         workspace_name=expected.workspace_name,
+        deployment_name=expected.deployment_name,
         aws_region=expected.aws_region,
         pricing_tier=expected.pricing_tier,
         credentials_id=expected.credentials_id,
         storage_configuration_id=expected.storage_configuration_id,
+        network_id=expected.network_id,
+        managed_services_customer_managed_key_id=expected.managed_services_customer_managed_key_id,
+        private_access_settings_id=expected.private_access_settings_id,
+        storage_customer_managed_key_id=expected.storage_customer_managed_key_id,
     )
     assert mock_request.last_request.json() == {
+        "deployment_name": expected.deployment_name,
         "aws_region": expected.aws_region,
         "credentials_id": str(expected.credentials_id),
         "pricing_tier": expected.pricing_tier,
         "storage_configuration_id": str(expected.storage_configuration_id),
         "workspace_name": expected.workspace_name,
+        "network_id": str(expected.network_id),
+        "managed_services_customer_managed_key_id": str(expected.managed_services_customer_managed_key_id),
+        "private_access_settings_id": str(expected.private_access_settings_id),
+        "storage_customer_managed_key_id": str(expected.storage_customer_managed_key_id),
+    }
+    assert result == expected
+
+
+def test_update_workspaces(requests_mock, aws_account_client: AwsAccountClient):
+    expected: Workspace = WorkspaceFactory.build()
+    expected.network_id = uuid.uuid4()
+    expected.managed_services_customer_managed_key_id = uuid.uuid4()
+    expected.private_access_settings_id = uuid.uuid4()
+    expected.storage_customer_managed_key_id = uuid.uuid4()
+    mock_request = requests_mock.patch(
+        f"https://{ACCOUNT_HOST}/{aws_account_client.workspaces._get_id_path(expected.workspace_id)}",
+        status_code=200,
+        text=expected.json(),
+    )
+
+    result = aws_account_client.workspaces.update(
+        workspace_id=expected.workspace_id,
+        aws_region=expected.aws_region,
+        credentials_id=expected.credentials_id,
+        storage_configuration_id=expected.storage_configuration_id,
+        network_id=expected.network_id,
+        managed_services_customer_managed_key_id=expected.managed_services_customer_managed_key_id,
+        private_access_settings_id=expected.private_access_settings_id,
+        storage_customer_managed_key_id=expected.storage_customer_managed_key_id,
+    )
+    assert mock_request.last_request.json() == {
+        "aws_region": expected.aws_region,
+        "credentials_id": str(expected.credentials_id),
+        "storage_configuration_id": str(expected.storage_configuration_id),
+        "network_id": str(expected.network_id),
+        "managed_services_customer_managed_key_id": str(expected.managed_services_customer_managed_key_id),
+        "private_access_settings_id": str(expected.private_access_settings_id),
+        "storage_customer_managed_key_id": str(expected.storage_customer_managed_key_id),
     }
     assert result == expected
 
