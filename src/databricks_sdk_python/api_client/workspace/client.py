@@ -11,8 +11,10 @@ class WorkspaceClient(BaseClient):
         self.workspace_host = workspace_host
 
         from databricks_sdk_python.api_client.workspace.unity_catalog.client import UnityCatalogClient
+        from databricks_sdk_python.api_client.workspace.permissions import PermissionsClient
 
         self.unity_catalog = UnityCatalogClient(self)
+        self.permissions = PermissionsClient(self)
 
 
 _client_cache = {}
