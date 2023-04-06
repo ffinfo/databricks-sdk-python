@@ -7,6 +7,8 @@ class UnityCatalogClient(object):
 
         from databricks_sdk_python.api_client.workspace.unity_catalog.catalogs import UnityCatalogCatalogClient
         from databricks_sdk_python.api_client.workspace.unity_catalog.metastores import UnityCatalogMetastoreClient
+        from databricks_sdk_python.api_client.workspace.unity_catalog.schemas import UnityCatalogSchemaClient
 
         self.metastores = UnityCatalogMetastoreClient(self.workspace_client)
         self.catalogs = UnityCatalogCatalogClient(self.workspace_client)
+        self.schemas = UnityCatalogSchemaClient(self.workspace_client)
