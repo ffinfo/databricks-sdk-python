@@ -17,6 +17,8 @@ class InstanceProfilesClient(object):
                 InstanceProfile(**i, workspace_host=self.workspace_client.host)
                 for i in response.json().get("instance_profiles", [])
             ]
+        elif response.status_code == 404:
+            return []
         else:
             raise UnknownApiResponse(response)
 
