@@ -111,9 +111,12 @@ class ClusterPolicy(WorkspaceModel):
         description: Optional[str] = None,
         policy_family_id: Optional[str] = None,
         policy_family_definition_overrides: Optional[Dict[str, PolicyElement]] = None,
-    ):
+    ) -> "ClusterPolicy":
         client = self.get_workspace_client()
+        self.name = policy_name or self.name
+        self.description = description or self.description
         if self.policy_family_id is None:
+            self.definition = definition or self.definition
             client.cluster_policies.update(
                 self.policy_id,
                 policy_name=policy_name or self.name,
@@ -121,6 +124,10 @@ class ClusterPolicy(WorkspaceModel):
                 definition=definition or self.definition,
             )
         else:
+            self.policy_family_id = policy_family_id or self.policy_family_id
+            self.policy_family_definition_overrides = (
+                policy_family_definition_overrides or self.policy_family_definition_overrides
+            )
             client.cluster_policies.update(
                 self.policy_id,
                 policy_name=policy_name or self.name,
@@ -129,6 +136,7 @@ class ClusterPolicy(WorkspaceModel):
                 policy_family_definition_overrides=policy_family_definition_overrides
                 or self.policy_family_definition_overrides,
             )
+        return self
 
     def delete(self):
         """Deletes policy from workspace"""

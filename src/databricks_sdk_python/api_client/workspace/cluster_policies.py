@@ -55,8 +55,9 @@ class ClusterPoliciesClient(object):
         body = {
             "name": policy_name,
             "description": description,
-            "policy_family_id": policy_family_id,
         }
+        if policy_family_id is not None:
+            body["policy_family_id"] = policy_family_id
         if definition is not None:
             body["definition"] = json.dumps({k: d.dict(skip_defaults=True) for k, d in definition.items()})
         if policy_family_definition_overrides is not None:
