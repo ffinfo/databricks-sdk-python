@@ -49,9 +49,8 @@ jobs:
         git tag "v${NEW_VERSION}"
 
         # publish mkdocs to github pages
-        pip install mkdocs
         poetry install --only=mkdocs
-        mkdocs gh-deploy
+        poetry run mkdocs gh-deploy
 
         poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
         poetry publish --build
