@@ -135,9 +135,15 @@
 <p>If a token is used make the username: <code>token</code>. See also <a href="https://docs.databricks.com/dev-tools/api/latest/authentication.html">here</a></p>
 <h3 id="netrc">netrc</h3>
 <p>Put the following to the <code>~/.netrc</code> file:</p>
-<pre><code>machine accounts.cloud.databricks.com
+<pre><code># Aws account portal
+machine accounts.cloud.databricks.com
 login &lt;user_name&gt;
 password &lt;password&gt;
+
+# Workspace
+machine &lt;workspace host name&gt;
+login &lt;user_name&gt;
+password &lt;password&gt; # or token
 </code></pre>
 <h3 id="in-code">in code</h3>
 <pre><code class="language-python">from requests.auth import HTTPBasicAuth
