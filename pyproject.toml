@@ -17,7 +17,7 @@ include = [
 packages = [{ include = "databricks_sdk_python", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = ">=3.8,<3.12"
 pydantic = "^1.4.0"
 requests = ">=2.22"
 
@@ -32,6 +32,11 @@ black="23.3.0"
 pytest-cov="^4.0.0"
 mypy = "^1.1.1"
 requests-mock = "^1.10.0"
+
+
+[tool.poetry.group.mkdocs.dependencies]
+mkdocs = "^1.4.2"
+mkdocs-include-markdown-plugin = "^4.0.4"
 
 [tool.black]
 line-length = 120

@@ -1,11 +1,12 @@
 from uuid import UUID
 
+from requests.auth import HTTPBasicAuth
+
 from databricks_sdk_python.api_client.account.aws.client import get_aws_account_client
 
 account_id = UUID("<databricks account id>")
 
-# This will assume you have set credentials in ~/.netrc for 'accounts.cloud.databricks.com'
-# If not please also supply a requests.auth.HTTPBasicAuth as auth argument
+auth = HTTPBasicAuth(username="<user_name>", password="<password>")
 account_client = get_aws_account_client(account_id=account_id)
 
 credentials = account_client.credentials.create(credentials_name="<name>", role_arn="<iam role arn>")

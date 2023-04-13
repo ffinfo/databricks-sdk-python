@@ -1,7 +1,8 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 from uuid import UUID
 
 from databricks_sdk_python.resources.base import WorkspaceModel
+from databricks_sdk_python.resources.workspace.unity_catalog.schemas import Schema
 
 
 class Catalog(WorkspaceModel):
@@ -49,6 +50,17 @@ class Catalog(WorkspaceModel):
         )
         for key, value in result:
             self.__dict__[key] = value
+
+    def list_schemas(self) -> List[Schema]:
+        """List schema in current catalog"""
+        client = self.get_workspace_client()
+        return client.unity_catalog.schemas.list(self.name)
+
+    def get_schema(self, schema_name) -> Optional[Schema]:
+        """Get schema in this catalog"""
+        client = self.get_workspace_client()
+        return client.unity_catalog.schemas.get_by_name(self.name, schema_name)
+
 
     def delete(self, force: bool = False):
         """Deletes workspace config"""
