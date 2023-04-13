@@ -57,41 +57,41 @@ class PermissionsClient(object):
         else:
             raise UnknownApiResponse(response)
 
-    def get_token_permissions(self):
+    def get_token_permissions(self) -> Optional[Permissions]:
         return self.get("authorization", "tokens")
 
-    def get_password_permissions(self):
+    def get_password_permissions(self) -> Optional[Permissions]:
         return self.get("authorization", "passwords")
 
-    def get_cluster_permissions(self, cluster_id: str):
+    def get_cluster_permissions(self, cluster_id: str) -> Optional[Permissions]:
         return self.get("clusters", cluster_id)
 
-    def get_cluster_policy_permissions(self, cluster_policy_id: str):
+    def get_cluster_policy_permissions(self, cluster_policy_id: str) -> Optional[Permissions]:
         return self.get("cluster-policies", cluster_policy_id)
 
-    def get_instance_pool_permissions(self, instance_pool_id: str):
+    def get_instance_pool_permissions(self, instance_pool_id: str) -> Optional[Permissions]:
         return self.get("instance-pools", instance_pool_id)
 
-    def get_job_permissions(self, job_id: int):
+    def get_job_permissions(self, job_id: int) -> Optional[Permissions]:
         return self.get("jobs", str(job_id))
 
-    def get_pipeline_permissions(self, pipeline_id: str):
+    def get_pipeline_permissions(self, pipeline_id: str) -> Optional[Permissions]:
         return self.get("pipelines", pipeline_id)
 
-    def get_notebook_permissions(self, notebook_id: int):
+    def get_notebook_permissions(self, notebook_id: int) -> Optional[Permissions]:
         return self.get("notebooks", str(notebook_id))
 
-    def get_directory_permissions(self, directory_id: int):
+    def get_directory_permissions(self, directory_id: int) -> Optional[Permissions]:
         return self.get("directories", str(directory_id))
 
-    def get_experiment_permissions(self, experiment_id: int):
+    def get_experiment_permissions(self, experiment_id: int) -> Optional[Permissions]:
         return self.get("experiments", str(experiment_id))
 
-    def get_registered_model_permissions(self, registered_model_id: str):
+    def get_registered_model_permissions(self, registered_model_id: str) -> Optional[Permissions]:
         return self.get("registered-models", registered_model_id)
 
-    def get_sql_warehouses_permissions(self, warehouse_id: str):
+    def get_sql_warehouses_permissions(self, warehouse_id: str) -> Optional[Permissions]:
         return self.get("sql/warehouses", warehouse_id)
 
-    def get_repo_permissions(self, repo_id: int):
+    def get_repo_permissions(self, repo_id: int) -> Optional[Permissions]:
         return self.get("repos", str(repo_id))
