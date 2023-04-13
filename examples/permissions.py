@@ -9,6 +9,8 @@ cluster_permissions = workspace_client.permissions.get_cluster_permissions("<clu
 cluster_permissions.grant([GroupObjectPermission(group_name="<group name>", permission_level="CAN_RESTART")])
 
 # Replacing permissions
-cluster_permissions.replace([
-    GroupObjectPermission(group_name="admins", permission_level="CAN_MANAGE"),
-])
+cluster_permissions.replace(
+    [
+        GroupObjectPermission(group_name="admins", permission_level="CAN_MANAGE"),
+    ]
+)
