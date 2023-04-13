@@ -1,4 +1,4 @@
-from typing import Dict, Optional, List
+from typing import Dict, List, Optional
 from uuid import UUID
 
 from databricks_sdk_python.resources.base import WorkspaceModel
@@ -60,7 +60,6 @@ class Catalog(WorkspaceModel):
         """Get schema in this catalog"""
         client = self.get_workspace_client()
         return client.unity_catalog.schemas.get_by_name(self.name, schema_name)
-
 
     def delete(self, force: bool = False):
         """Deletes workspace config"""
