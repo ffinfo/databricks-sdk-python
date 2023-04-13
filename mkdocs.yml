@@ -18,6 +18,7 @@ nav:
         - Instance Profiles: workspace_resources/instance_profiles.md
         - Secrets: workspace_resources/secrets.md
         - Unity Catalog: workspace_resources/unity_catalog.md
+        - Permissions: workspace_resources/permissions.md
   - About:
       - Contribution: CONTRIBUTION.md
       - License: LICENSE.md
