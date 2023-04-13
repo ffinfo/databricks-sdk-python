@@ -5,7 +5,7 @@ theme:
 nav:
   - Home: index.md
   - General:
-    - Setup: install.md
+    - Install: install.md
   - Resources:
     - Account:
         - AWS: account_resources/aws.md
@@ -19,7 +19,8 @@ nav:
         - Secrets: workspace_resources/secrets.md
         - Unity Catalog: workspace_resources/unity_catalog.md
   - About:
-      - Contribution: contribution.md
+      - Contribution: CONTRIBUTION.md
+      - License: LICENSE.md
 
 plugins:
   - include-markdown

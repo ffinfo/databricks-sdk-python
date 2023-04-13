@@ -1,7 +1,5 @@
+# databricks-sdk-python
 
-[TOC]
+This library is used to interact with databricks apis.
 
-## a
-## b
-## c
-## d
+For generic setup please see [install page](install.md)
