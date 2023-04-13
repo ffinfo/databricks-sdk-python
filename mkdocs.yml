@@ -1,0 +1,25 @@
+site_name: databricks-sdk-python
+
+theme:
+  name: readthedocs
+nav:
+  - Home: index.md
+  - General:
+    - Setup: install.md
+  - Resources:
+    - Account:
+        - AWS: account_resources/aws.md
+        - Azure: account_resources/azure.md
+        - GCP: account_resources/gcp.md
+    - Workspace:
+        - Clusters: workspace_resources/clusters.md
+        - Jobs: workspace_resources/jobs.md
+        - Cluster Policies: workspace_resources/cluster_policies.md
+        - Instance Profiles: workspace_resources/instance_profiles.md
+        - Secrets: workspace_resources/secrets.md
+        - Unity Catalog: workspace_resources/unity_catalog.md
+  - About:
+      - Contribution: contribution.md
+
+plugins:
+  - include-markdown
