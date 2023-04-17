@@ -68,15 +68,17 @@ class Permissions(WorkspaceModel):
     def grant(
         self,
         access_control_list: List[Union[UserObjectPermission, GroupObjectPermission, ServicePrincipalObjectPermission]],
-    ):
+    ) -> "Permissions":
         client = self.get_workspace_client()
         result = client.permissions.grant(**self._get_url_objets(), access_control_list=access_control_list)
         self.access_control_list = result.access_control_list
+        return self
 
     def replace(
         self,
         access_control_list: List[Union[UserObjectPermission, GroupObjectPermission, ServicePrincipalObjectPermission]],
-    ):
+    ) -> "Permissions":
         client = self.get_workspace_client()
         result = client.permissions.replace(**self._get_url_objets(), access_control_list=access_control_list)
         self.access_control_list = result.access_control_list
+        return self
