@@ -38,8 +38,9 @@ jobs:
         with:
           report_paths: 'aws-lambda/junit/report.xml'
       - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
 
   flake8:
