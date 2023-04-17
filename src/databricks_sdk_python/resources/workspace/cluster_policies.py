@@ -98,7 +98,7 @@ class ClusterPolicy(WorkspaceModel):
     def refresh(self):
         """Refresh to current state"""
         client = self.get_workspace_client()
-        result = client.cluster_policies.get(self.policy_id)
+        result = client.cluster_policies.get_by_id(self.policy_id)
         if result is None:
             raise RuntimeError(f"{self.policy_id} does not exists anymore")
         for key, value in result:
@@ -119,9 +119,9 @@ class ClusterPolicy(WorkspaceModel):
             self.definition = definition or self.definition
             client.cluster_policies.update(
                 self.policy_id,
-                policy_name=policy_name or self.name,
-                description=description or self.description,
-                definition=definition or self.definition,
+                policy_name=self.name,
+                description=self.description,
+                definition=self.definition,
             )
         else:
             self.policy_family_id = policy_family_id or self.policy_family_id

@@ -157,11 +157,13 @@ def test_update(workspace_client: WorkspaceClient, requests_mock):
     workspace_client.cluster_policies.update(
         policy_id=expected.policy_id,
         policy_name=expected.name,
+        description=expected.description,
     )
 
     assert mock_request.last_request.json() == {
         "policy_id": expected.policy_id,
         "name": expected.name,
+        "description": expected.description,
     }
 
 

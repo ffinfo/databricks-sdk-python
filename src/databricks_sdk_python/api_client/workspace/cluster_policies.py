@@ -100,12 +100,7 @@ class ClusterPoliciesClient(object):
         policy_family_id: Optional[str] = None,
         policy_family_definition_overrides: Optional[Dict[str, PolicyElement]] = None,
     ):
-        body = {
-            "policy_id": policy_id,
-            "name": policy_name,
-        }
-        if description is not None:
-            body["description"] = description
+        body = {"policy_id": policy_id, "name": policy_name, "description": description}
         if policy_family_id is not None:
             body["policy_family_id"] = policy_family_id
         if definition is not None:
